@@ -1,0 +1,154 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TwigController!
+{% endblock %}
+
+{% block body %}
+	{# parent() permet de récupérer le contenu du container parent dont on hérite. On parle donc de surcharge avec récupération #}
+	{{ parent() }}
+	{# les   {{  }} permettent de générer un affichage (directive d'affichage) #}
+
+	{# déclaration d'une variable avec set #}
+	{#   les {%  %}  déclarent des directives dites fonctionnelles #}
+	{% set test="une variable test" %}
+		<p>
+	{{ test }}
+	</p>
+
+	{# la concaténation avec le tilde #}
+		<p>
+	{{ test ~ ' !!!!' }}
+	</p>
+	{#    {{ test }}{{ ' !!!!!' }}#}
+
+	{# Structure conditionnelle  #}
+		{% if test != '' %}
+			<p>
+		test n'est pas vide
+		</p>
+	{% else %}
+		<p>test est vide</p>
+	{% endif %}
+
+	{% set vrai=true %}
+	{% set faux=false %}
+
+	{# not pour !$faux #}
+	{% if not faux %}
+		<p>faux n'est pas vrai</p>
+	{% endif %}
+
+	{# || &&  avec and et or  #}
+	{% if vrai and not faux %}
+		<p>vrai est vrai et faux n'est pas vrai</p>
+	{% endif %}
+
+	{# Structure itérative: les boucles #}
+
+	{# un tableau indexé #}
+	{%  set tableau=['a', 'b','c','d'] %}
+
+	{# pour accéser à un élément du tableau #}
+	{{ tableau[1] }}
+
+	<br>
+	{# ou #}
+	{{ tableau.2 }}
+	<br>
+	{# pour boucler sur le tableau #}
+	{% for lettre in tableau %}
+		{{ lettre }}<br>
+	{% endfor %}
+
+	{# tableau associatif #}
+	{% set assoc={ nom: 'Groucho', prenom:'Marc', profession:'explorateur' } %}
+
+	{# pour accéder à un élément #}
+	{{ assoc['nom'] }}
+
+	<br>
+	{# ou #}
+	{{  assoc.prenom }}
+
+	<br>
+	{#  foreach($assoc as $key=>$value) #}
+	{% for key, value in assoc %}
+		{{ key }}:
+		{{ value }}<br>
+	{% endfor %}
+
+	{% set vide = [] %}
+
+	{% for item in vide %}
+		{{item}}
+	{% else %}
+		<p>C'est vide</p>
+	{% endfor %}
+
+	{% for value in assoc %}
+		<p>Tour n°{{loop.index}}</p>
+
+
+		{% if loop.first %}
+			<p>1er tour de boucle</p>
+		{% endif %}
+
+		{% if loop.last %}
+			<p>dernier tour de boucle</p>
+		{% endif %}
+
+		{{value}}<br>
+	{% endfor %}
+
+	{% set chiffres = 0..9 %}
+
+	{% for chiffre in chiffres %}
+		{{chiffre}}<br>
+	{% endfor %}
+
+	{% for i in 0..9 %}
+		{{i}}<br>
+	{% endfor %}
+
+
+	{% if test is not empty %}
+		<p>Test n'est pas vide</p>
+	{% endif %}
+
+	{% set dix = 10 %}
+
+	{% if dix is divisible by(5) %}
+		<p>Dix estt divisible par 5</p>
+	{% endif %}
+
+	{% if dix is even %}
+		<p>Dix est pair</p>
+	{% endif %}
+
+	{% if dix is odd %}
+		<p>Dix est impair</p>
+	{% endif %}
+
+	{{ test |upper }}
+	<br>
+	{{ test |lower }}
+	<br>
+	{{ var |default("var n'existe pas") | upper }}
+
+	<p>{{ '2023-09-14'| date('d/m/Y') }}</p>
+	<br>
+	<p>{{ DateDeDemain |date('d/m/Y H:i:s') }}</p>
+
+	<p>{{ DateDeDemain.format('d/m/Y H:i:s') }}</p>
+
+	{% set paragraphe = '<p>Je suis un paragraphe</p>' %}
+
+	{{paragraphe}}
+
+{% include 'twig/include.html.twig' %}
+
+{% endblock %}
+{% block monH3 %}
+	{# ici sans le bloc parent(), on parle de surcharge complète #}
+
+{% endblock %}
